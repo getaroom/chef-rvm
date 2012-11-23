@@ -100,11 +100,13 @@ class Chef
           exec_name   = "upgrade user RVM for #{opts[:user]} to " +
                         opts[:upgrade_strategy]
           exec_env    = { 'USER' => opts[:user], 'HOME' => user_dir }
+          rvm_path    = "#{opts[:rvm_prefix]}/.rvm"
         else
           user_dir    = nil
           exec_name   = "upgrade system-wide RVM to " +
                         opts[:upgrade_strategy]
           exec_env    = nil
+          rvm_path    = "#{opts[:rvm_prefix]}/rvm"
         end
 
         u = execute exec_name do
@@ -119,7 +121,7 @@ class Chef
             action :run
           end
 
-          not_if   { opts[:upgrade_strategy] == "none" }
+          not_if   { ["none", File.read("#{rvm_path}/VERSION").chomp].include? opts[:upgrade_strategy] }
         end
         u.run_action(:run) if install_now
       end
