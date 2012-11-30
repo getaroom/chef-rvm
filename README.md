@@ -1363,6 +1363,7 @@ it isn't already and a gemset will be created in none currently exist.
       <td>prefix</td>
       <td>
         <b>Name attribute:</b> a prefix string for the wrapper script name.
+        Set to false to not use a prefix.
       </td>
       <td><code>nil</code></td>
     </tr>
@@ -1417,6 +1418,15 @@ the same time).
     end
 
 This will create a wrapper script called `sys_thor` in the `bin` directory
+under `node['rvm']['root_path']`.
+
+    rvm_wrapper "sys" do
+      prefix         false
+      ruby_string   "jruby@utils"
+      binary        "thor"
+    end
+
+This will create a wrapper script called `thor` in the `bin` directory
 under `node['rvm']['root_path']`.
 
 ##### Wrapping A List Of Binaries

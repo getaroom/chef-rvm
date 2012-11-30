@@ -53,7 +53,7 @@ end
 private
 
 def create_wrapper(bin)
-  full_bin = "#{new_resource.prefix}_#{bin}"
+  full_bin = new_resource.prefix ? "#{new_resource.prefix}_#{bin}" : bin
   resource_name = "rvm_wrapper[#{full_bin}::#{@ruby_string}]"
   script = ::File.join(@rvm_env.config["rvm_path"], "bin", full_bin)
 
@@ -63,7 +63,7 @@ def create_wrapper(bin)
     Chef::Log.info("Creating #{resource_name}")
   end
 
-  if @rvm_env.wrapper @ruby_string, new_resource.prefix, bin
+  if @rvm_env.wrapper @ruby_string, (new_resource.prefix || "--no-prefix"), bin
     Chef::Log.debug("Creation/Update of #{resource_name} was successful.")
     new_resource.updated_by_last_action(true)
   else
