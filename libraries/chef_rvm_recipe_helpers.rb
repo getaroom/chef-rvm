@@ -164,14 +164,16 @@ class Chef
           if rubie.is_a?(Hash)
             ruby = rubie.fetch("version")
             ruby_patch = rubie.fetch("patch", nil)
+            ruby_name = [ruby, ruby_patch].compact.join("-")
             ruby_rubygems_version = rubie.fetch("rubygems_version", nil)
           else
             ruby = rubie
+            ruby_name = rubie
             ruby_patch = nil
             ruby_rubygems_version = nil
           end
 
-          rvm_ruby ruby do
+          rvm_ruby ruby_name do
             patch            ruby_patch
             user             opts[:user]
             rubygems_version ruby_rubygems_version
