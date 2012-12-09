@@ -40,7 +40,7 @@ action :install do
 
     Chef::Log.info("Building rvm_ruby[#{@rubie}], this could take awhile...")
 
-    if @rvm_env.install(@rubie)
+    if @rvm_env.install(@rubie, :patch => (new_resource.patch || false))
       Chef::Log.info("Installation of rvm_ruby[#{@rubie}] was successful.")
       @rvm_env.use @rubie
       update_installed_rubies
