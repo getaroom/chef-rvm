@@ -22,6 +22,10 @@ gem_package 'rvm' do
   action :nothing
 end.run_action(:install)
 
+chef_gem 'rvm' do
+  action :nothing
+end.run_action(:install)
+
 require 'rubygems'
 Gem.clear_paths
 require 'rvm'
