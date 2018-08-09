@@ -19,7 +19,7 @@
 
 # the installed gpg binary is having issues with downloading the signing key for rvm.
 # install gpg2 instead.
-package "gpgv2" do
+package "gnupg2" do
   action :nothing
 end.run_action(:install)
 
