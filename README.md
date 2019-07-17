@@ -476,7 +476,7 @@ To re-enable the documentation generation set:
 
     node['rvm']['rvm_gem_options'] = "--rdoc --ri"
 
-The default is `"--no-rdoc --no-ri"`.
+The default is `"--no-document"`.
 
 ### <a name="attributes-install-rubies"></a> install_rubies (Future Deprecation)
 
