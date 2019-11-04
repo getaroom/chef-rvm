@@ -17,6 +17,18 @@
 # limitations under the License.
 #
 
+# the installed gpg binary is having issues with downloading the signing key for rvm.
+# install gpg2 instead.
+package "gnupg2" do
+  action :nothing
+end.run_action(:install)
+
+bash "import RVM pub key" do
+  code "gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB"
+  user "root"
+  action :nothing
+end.run_action(:run)
+
 # install rvm api gem during chef compile phase
 gem_package 'rvm' do
   action :nothing
