@@ -23,8 +23,6 @@ package "gnupg2" do
   action :nothing
 end.run_action(:install)
 
-
-# Per https://rvm.io/rvm/security, the keyserver is no longer keys.gnupg
 bash "import RVM pub key" do
   code <<-GPG
     attempts=1
@@ -33,8 +31,7 @@ bash "import RVM pub key" do
 
     until [[ $attempts -eq $max_attempts ]]
     do
-      echo "gpg attempt ${attempts}"
-      echo $keyserver
+      echo "gpg attempt ${attempts} for ${keyserver}"
 
       gpg --verbose --keyserver "hkp://${keyserver}" --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB·
 
