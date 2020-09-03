@@ -26,7 +26,28 @@ end.run_action(:install)
 
 # Per https://rvm.io/rvm/security, the keyserver is no longer keys.gnupg
 bash "import RVM pub key" do
-  code "gpg --keyserver hkp://pool.sks-keyservers.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB"
+  code <<-GPG
+    attempts=1
+    max_attempts=4
+    keyserver="keys.gnupg.net"
+
+    until [[ $attempts -eq $max_attempts ]]
+    do
+      echo "gpg attempt ${attempts}"
+      echo $keyserver
+
+      gpg --verbose --keyserver "hkp://${keyserver}" --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB·
+
+      [[ $? -eq 0 ]] && break
+      let "attempts+=1"
+
+      if [[ $attempts -eq 4 ]]
+      then
+        attempts=1
+        keyserver="keyserver.cns.vt.edu"
+      fi
+    done
+    GPG
   user "root"
   action :nothing
 end.run_action(:run)
